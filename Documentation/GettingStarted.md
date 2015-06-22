@@ -3,7 +3,7 @@
 Please create an [Apple ID](https://appleid.apple.com) with your company email. After that we will add you to our development team.
 
 ## Xcode
-After you have received and confirmed invitation for Zalando iOS Developer Program, add your account to Xcode in Preferences.
+After you have received and confirmed invitation for Apple iOS Developer Program, add your account to Xcode in Preferences.
 
 ![Xcode Accounts](images/xcode_accounts.png)
 
@@ -63,7 +63,7 @@ Please configure your git with your information
 
 ```
 $ git config --global user.name "John Appleseed"
-$ git config --global user.email "john.appleseed@zalando.de"
+$ git config --global user.email "john.appleseed@apple.com"
 $ git config --global push.default upstream
 ```
 
@@ -72,7 +72,7 @@ Now you are ready to checkout the project:
 ```
 $ mkdir ~/Projects
 $ cd Projects
-$ git clone ssh://git@stash.zalando.net:7999/shop-mobile/ios-app.git
+$ git clone ssh://git@stash.smapps.net:7999/shop-mobile/ios-app.git
 $ cd ios-app
 ```
 ## Homebrew
@@ -132,7 +132,7 @@ $ sudo easy_install xUnique
 Add xUnique to pre-commit hook file (.git/hooks/pre-commit):
 
 #!/bin/sh
-python -mxUnique -c zalando.xcodeproj
+python -mxUnique -c smapps.xcodeproj
 
 $ chmod +x .git/hooks/pre-commit
 ```
