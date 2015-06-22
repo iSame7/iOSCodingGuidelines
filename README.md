@@ -1,6 +1,3 @@
-# iOSCodingGuidelines
-Coding guidelines of smapps.
-
 # smapps iOS App
 
 ## Documentation
