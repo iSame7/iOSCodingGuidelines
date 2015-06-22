@@ -196,11 +196,11 @@ Use them to divide code into logical sections. But do so sparingly. If the class
 ```
 
 ### Categories
-Naming wise, prefix categories with the ubiquitous `ZAL` prefix. Method names should use a three letter with underscore prefix `zal_methodName` as per [Apple`s](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html#//apple_ref/doc/uid/TP40011210-CH6-SW4) recommendations. We’ll illustrate the point with an addition to NSDate.
+Naming wise, prefix categories with the ubiquitous `SMP` prefix. Method names should use a three letter with underscore prefix `smp_methodName` as per [Apple`s](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/ProgrammingWithObjectiveC/CustomizingExistingClasses/CustomizingExistingClasses.html#//apple_ref/doc/uid/TP40011210-CH6-SW4) recommendations. We’ll illustrate the point with an addition to NSDate.
 
-* File name `NSDate+ZALAdditions`
-* Interface `@interface NSDate (ZALAdditions)`
-* Method `+(NSDate *)zal_dateFromISO8601String:(NSString *)ISO8601String;`
+* File name `NSDate+SMPAdditions`
+* Interface `@interface NSDate (SMPAdditions)`
+* Method `+(NSDate *)smp_dateFromISO8601String:(NSString *)ISO8601String;`
 
 ### Class Members
 ```
@@ -234,19 +234,19 @@ Prefix internal constants with the `k` prefix:
 static NSString *const kStaticString = @"something static"
 static const int kNumberOfCategorySections = 3;
 ```
-If you need to define a global constant, prefix it with the three-letter ZAL prefix and continue naming them using title case. The first letter should be capitalized too. It should be declared as `extern` in a .h file and receive its actual value in the .m file:
+If you need to define a global constant, prefix it with the three-letter SMP prefix and continue naming them using title case. The first letter should be capitalized too. It should be declared as `extern` in a .h file and receive its actual value in the .m file:
 
 * AppDelegate.h
 *
 ```
-extern NSString *const ZALGlobalError;
-extern const NSTimeInterval ZALGlobalTimeInterval;
+extern NSString *const SMPGlobalError;
+extern const NSTimeInterval SMPGlobalTimeInterval;
 ```
 * AppDelegate.m
 *
 ```
-NSString *const ZALGlobalError = @"de.zalando.iphone.error";
-const NSTimeInterval ZALGlobalTimeInterval = 0.4;
+NSString *const SMPGlobalError = @"de.smapps.iphone.error";
+const NSTimeInterval SMPGlobalTimeInterval = 0.4;
 ```
 
 ### Blocks
@@ -284,7 +284,7 @@ It’s also often not necessary to create a strong reference to the weakSelf ins
 Final parting note: Don’t create typedefs for void blocks. Apple was so gracious as to provide us with a type for that: `dispatch_block_t`
 
 ## Coding Guidelines
-* Use categories for colors and fonts: `UIColor+ZALAdditions` and UIFont+Zalando. They provide a lovely semantic layer on top and make replacing colors/fonts a breeze as well
+* Use categories for colors and fonts: `UIColor+SMPLAdditions` and UIFont+Smapps. They provide a lovely semantic layer on top and make replacing colors/fonts a breeze as well
 * TODOs and FIXMEs are treated as compiler warnings. If you add one please actually go in and do or fix the issue or annotate the line in such a way that someone else can take care of the issue. The goal is 0 warnings.
 * Feel free to refactor old code. The best way to do this is to create a test that verifies current behavior. Sometimes there are strange implementation details that work around other bugs that are outside of the direct scope (they should be commented of course).
 * Dot-notation should be used for accessing and changing properties, bracket notation in all other cases.
@@ -302,7 +302,7 @@ TODO
 ```
 
 ## Network Calls
-All network calls are encapsulated inside `ZHTTPSessionManager` which in turn inherits from `AFHTTPSessionManager`.
+All network calls are encapsulated inside `SHTTPSessionManager` which in turn inherits from `AFHTTPSessionManager`.
 The structure for all network calls should follow this pattern:
 ```
 -(NSURLSessionDataTask *)loadSomeResourceWithParam:(NSString *)aParam number:(NSNumber *)aNumber completion:(BOOL success, id JSON, NSError *error);
@@ -311,24 +311,24 @@ Thusly:
 
 * Pass in any parameters the task needs to construct a URI
 * Use a completion block that returns success `YES`|`NO`, the raw JSON and an optional NSError
-* The `ZHTTPSessionManager` uses `AFJSONResponseSerializer` as response serializer so the JSON returned by the call is already an NSArray or NSDictionary. We use [Mantle](https://github.com/MantleFramework/Mantle) to turn those raw data types into proper objects. It’s the job of the caller to create that object. Do use Mantle, do not take shortcuts and use the NSDictionary directly. And learn how Mantle works to properly deserialize nested object structures
-* The `ZHTTPSessionManager` will initialize the network call immediately before returning the `NSURLSessionDataTask`. You can ignore the return type for most calls unless you have some special case where it makes sense to cancel the call.
-* The `ZHTTPSessionManager` will construct the proper URI for its call. Do not pass in any prepared strings or parts of URIs.
+* The `SHTTPSessionManager` uses `AFJSONResponseSerializer` as response serializer so the JSON returned by the call is already an NSArray or NSDictionary. We use [Mantle](https://github.com/MantleFramework/Mantle) to turn those raw data types into proper objects. It’s the job of the caller to create that object. Do use Mantle, do not take shortcuts and use the NSDictionary directly. And learn how Mantle works to properly deserialize nested object structures
+* The `SHTTPSessionManager` will initialize the network call immediately before returning the `NSURLSessionDataTask`. You can ignore the return type for most calls unless you have some special case where it makes sense to cancel the call.
+* The `SHTTPSessionManager` will construct the proper URI for its call. Do not pass in any prepared strings or parts of URIs.
 
 ## Mantle for JSON
-As was alread alluded to in the **Network Calls** section, we use [Mantle](https://github.com/MantleFramework/Mantle) to turn JSON into proper objects. Any class that is a model should use a Z-prefix as class name and inherit from `MTLModel` as well as conform to the `MTLJSONSerializing` protocol:
+As was alread alluded to in the **Network Calls** section, we use [Mantle](https://github.com/MantleFramework/Mantle) to turn JSON into proper objects. Any class that is a model should use a S-prefix as class name and inherit from `MTLModel` as well as conform to the `MTLJSONSerializing` protocol:
 
 ```
-typedef NS_ENUM(NSUInteger, ZOrderType) {
-  ZOrderTypeWeb,
-  ZOrderTypeApp
+typedef NS_ENUM(NSUInteger, SOrderType) {
+  SOrderTypeWeb,
+  SOrderTypeApp
 };
 
-@interface ZOrder : MTLModel <MTLJSONSerializing>
+@interface SOrder : MTLModel <MTLJSONSerializing>
 
 @property(nonatomic, readonly, strong) NSString *id;
 @property(nonatomic, readonly, strong) NSArray *history;
-@property(nonatomic, readonly) ZOrderType orderType;
+@property(nonatomic, readonly) SOrderType orderType;
 
 @end
 ```
@@ -336,7 +336,7 @@ typedef NS_ENUM(NSUInteger, ZOrderType) {
 Mantle models can be nested infinitely deep and to make this magic work only rely on some naming conventions inside the class implementation:
 
 ```
-@implementation ZOrder
+@implementation SOrder
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{
@@ -352,8 +352,8 @@ Mantle models can be nested infinitely deep and to make this magic work only rel
 
 + (NSValueTransformer *)orderTypeJSONTransformer {
     NSDictionary *orderTypes = @{
-            @"web" : @(ZOrderTypeWeb),
-            @"app" : @(ZOrderTypeApp)
+            @"web" : @(SOrderTypeWeb),
+            @"app" : @(SOrderTypeApp)
     };
 
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *string) {
