@@ -51,7 +51,7 @@ All UIKit-derived Classes should be named by removing the prefix of their parent
 
 All derived classes in general should follow the same pattern.
 
-All model classes names should be consistent with the API and/or the shop naming, adding to it only the **Z** prefix . For example, even if we talk about products with PM and onSite, the model class representing a so-called product should be named ZArticle[…] (ZArticleConfig, ZArticleSimple, etc.).
+All model classes names should be consistent with the API and/or the shop naming, adding to it only the **S** prefix . For example, even if we talk about products with PM and onSite, the model class representing a so-called product should be named SArticle[…] (SArticleConfig, SArticleSimple, etc.).
 
 #### Interface File Structure
 The main goal when writing a .h file is to keep it as small as possible in terms of actual code lines. To do so, these rules are to follow:
